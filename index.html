@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="description"
         content="DGPPO">
-  <meta name="keywords" content="Multi-agent systems; Reinforcement Learning; Distributed control; Safe control; Control barrier functions; Graph neural networks">
+  <meta name="keywords" content="Multi-agent systems; Reinforcement Learning; Distributed control; Safe control; Epigraph form; Graph neural networks">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DGPPO</title>
+  <title>Def-MARL</title>
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
         rel="stylesheet">
@@ -52,6 +52,9 @@
           More Research
         </a>
         <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://mit-realm.github.io/dgppo/">
+            DGPPO: Discrete GCBF Proximal Policy Optimization for Multi-agent Safe Optimal Control
+          </a>
           <a class="navbar-item" href="https://mit-realm.github.io/gcbfplus/">
             GCBF+: A Neural Graph Control Barrier Function Framework for Distributed Safe Multi-Agent Control
           </a>
@@ -80,27 +83,29 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Discrete GCBF Proximal Policy Optimization for Multi-agent Safe Optimal Control</h1>
+          <h1 class="title is-1 publication-title">Solving Multi-Agent Safe Optimal Control with Distributed Epigraph Form MARL</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://syzhang092218-source.github.io/">Songyuan Zhang</a><sup>1</sup>,</span>
+              <a href="https://syzhang092218-source.github.io/">Songyuan Zhang</a><sup>*1</sup>,</span>
               <span class="author-block">
-                <a href="https://oswinso.xyz/">Oswin So</a><sup>1</sup>,</span>
+                <a href="https://oswinso.xyz/">Oswin So</a><sup>*1</sup>,</span>
             <span class="author-block">
               <a href="https://www.blackmitchell.com/">Mitchell Black</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://zacharyserlin.com/">Zachary Serlin</a><sup>2</sup>,</span>
             <span class="author-block">
               <a href="http://chuchu.mit.edu/">Chuchu Fan</a><sup>1</sup></span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>Massachusetts Institute of Technology &nbsp&nbsp&nbsp&nbsp<sup>2</sup>MIT Lincoln Laboratory</span>
+            <span class="author-block"><sup>*</sup>Equal contribution &nbsp&nbsp&nbsp&nbsp<sup>1</sup>Massachusetts Institute of Technology &nbsp&nbsp&nbsp&nbsp<sup>2</sup>MIT Lincoln Laboratory</span>
           </div>
 
           <div class="column has-text-centered">
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <a href="https://openreview.net/pdf?id=1X1R7P6yzt"
+                <a href="https://openreview.net/pdf?id=Q9jHV0KEcu"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -108,7 +113,7 @@
                   <span>Paper</span>
                 </a>
               </span>
-              <span class="link-block">
+              <!-- <span class="link-block">
                 <a href="https://arxiv.org/abs/2502.03640"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
@@ -116,7 +121,7 @@
                   </span>
                   <span>arXiv</span>
                 </a>
-              </span>
+              </span> -->
               <!-- Video Link. -->
               <!-- <span class="link-block">
                 <a href="https://youtu.be/TODO"
@@ -138,7 +143,7 @@
               </span> -->
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://github.com/MIT-REALM/dgppo/"
+                <a href="https://github.com/MIT-REALM/def-marl/"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -158,8 +163,8 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <h2 class="title is-3"><center>DGPPO: How to extend CBFs elegantly for safe MARL.</center></h2>
-      <div class="hero-body">
+      <h2 class="title is-3"><center><tt>Def-MARL</tt>: A more stable safe MARL framework for zero constraint violation setting.</center></h2>
+      <!-- <div class="hero-body">
         <center>
           <img width=24% src="./videos/LidarSpread.gif"
           alt="LidarSpread"/>
@@ -170,7 +175,7 @@
           <img width=24% src="./videos/VMASWheel.gif"
           alt="VMASWheel"/>
         </center>
-      </div>
+      </div> -->
     </div>
   </div>
 </section>
@@ -195,7 +200,14 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Control policies that can achieve high task performance and satisfy safety contraints are desirable for any system, including multi-agent systems (MAS). One promising technique for ensuring the safety of MAS is distributed control barrier functions (CBF). However, it is difficult to design distributed CBF-based policies for MAS that can tackle unknown discrete-time dynamics, partial observability, changing neighborhoods, and input constraints, especially when a distributed high-performance nominal policy that can achieve the task is unavailable. To tackle these challenges, we propose DGPPO, a new framework that simultaneously learns both a discrete graph CBF which handles neighborhood changes and input constraints, and a distributed high-performance safe policy for MAS with unknown discrete-time dynamics. We empirically validate our claims on a suite of multi-agent tasks spanning three different simulation engines. The results suggest that, compared with existing methods, our DGPPO framework obtains policies that achieve high task performance (matching baselines that ignore the safety constraints), and high safety rates (matching the most conservative baselines), with a constant set of hyperparameters across all environments.
+            Tasks for multi-robot systems often require the robots to collaborate and complete a team goal while maintaining safety.
+            This problem is usually formalized as a constrained Markov decision process (CMDP), which targets minimizing a global cost and bringing the mean of constraint violation below a user-defined threshold.
+            Inspired by real-world robotic applications, we define safety as zero constraint violation.
+            While many safe multi-agent reinforcement learning (MARL) algorithms have been proposed to solve CMDPs, these algorithms suffer from unstable training in this setting.
+            To tackle this, we use the epigraph form for constrained optimization to improve training stability and prove that the centralized epigraph form problem can be solved in a distributed fashion by each agent.
+            This results in a novel centralized training distributed execution MARL algorithm named <tt>Def-MARL</tt>.
+            Simulation experiments on 8 different tasks across 2 different simulators show that <tt>Def-MARL</tt> achieves the best overall performance, satisfies safety constraints, and maintains stable training.
+            Real-world hardware experiments on Crazyflie quadcopters demonstrate the ability of <tt>Def-MARL</tt> to safely coordinate agents to complete complex collaborative tasks compared to other methods. 
           </p>
         </div>
       </div>
@@ -209,7 +221,7 @@
   
   <div class="container is-max-desktop">
     <!-- Main point 1 -->
-    <h2 class="title is-3">Problem setting</h2>
+    <!-- <h2 class="title is-3">Problem setting</h2>
     <div class="column">
       <div class="columns is-centered">
         <img src="figs/problem_setting.jpg"
@@ -268,9 +280,9 @@
         \(\tilde{A}_i := A^{\text{GAE}} \unicode{x1D7D9}_{\max_m \hat{C}_{\theta,i}^{(m)} \leq 0} + 
       \nu \max_m \hat{C}_{\theta ,i}^{(m)} \unicode{x1D7D9}_{\max_m \hat{C}_{\theta ,i}^{(m)} > 0}\)
       </center>
-    </p>
+    </p> -->
 
-    <div class="column"></div>
+    <!-- <div class="column"></div>
     <h2 class="title is-3">Simulation Environments</h2>
     <div class="column">
       <div class="content">
@@ -310,7 +322,6 @@
       </div>
     </div>
 
-    <!-- Main point 3 -->
     <div class="column"></div>
     <h2 class="title is-3">Numerical Results</h2>
     <div class="column">
@@ -345,18 +356,15 @@
       <p align="center">
         <b>Scaling to \(N=5, 7\).</b> Unlike other methods, DGPPO performs similarly with more agents.
       </p>
-    </div>
+    </div> -->
 
-
-  <!-- Concurrent Work. -->
   <div class="column"></div>
   <h2 class="title is-3">Related Work</h2>
   <div class="column">
     <div class="content">
       <div class="content has-text-justified">
         <p>
-          This work is built on our previous work <a href="https://mit-realm.github.io/gcbfplus/">GCBF+</a> and <a href="https://mit-realm.github.io/gcbf-website/">GCBFv0</a>, which eliminates the requirement of a performant nominal policy and the knowledge of dynamics. 
-
+          This work is part of our line of work on designing safe and intelligent control policies for multi-agent systems. Other works on this line includes <a href="https://mit-realm.github.io/dgppo/">DGPPO</a>, <a href="https://mit-realm.github.io/gcbfplus/">GCBF+</a>, and <a href="https://mit-realm.github.io/gcbf-website/">GCBFv0</a>.
           For a survey of the field of learning safe control for multi-robot systems, see <a rel="survey" href="https://arxiv.org/pdf/2311.13714.pdf">this paper</a>.
         </p>
       </div>
@@ -369,10 +377,10 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
-    <pre><code>@inproceedings{zhang2025dgppo,
-      title={Discrete {GCBF} Proximal Policy Optimization for Multi-agent Safe Optimal Control},
-      author={Zhang, Songyuan and So, Oswin and Black, Mitchell and Fan, Chuchu},
-      booktitle={The Thirteenth International Conference on Learning Representations},
+    <pre><code>@inproceedings{zhang2025defmarl,
+      title={Solving Multi-Agent Safe Optimal Control with Distributed Epigraph Form MARL},
+      author={Zhang, Songyuan and So, Oswin and Black, Mitchell and Zachary, Serlin and Fan, Chuchu},
+      booktitle={Proceedings of Robotics: Science and Systems},
       year={2025},
 }</code></pre>
   </div>

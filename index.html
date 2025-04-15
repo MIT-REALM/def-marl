@@ -178,7 +178,6 @@
       </div> -->
       <div class="hero-body">
         <h2 class="title is-4">Crazyflies crossing a narrow corridor using <tt>Def-MARL</tt></h2>
-        
         <center>
           <img width=49.5% src="./figs/CorridorDescription.jpg"
           alt="razyflies crossing a narrow corridor using Def-MARL"/>
@@ -186,7 +185,6 @@
             <source src="videos/Def-MARL_Corridor_00'.mp4" type="video/mp4">
           </video>
         </center>
-        
       </div>
       <div class="hero-body">
         <h2 class="title is-4">Crazyflies inspecting the target collaborately using <tt>Def-MARL</tt></h2>
@@ -198,25 +196,35 @@
           </video>
         </center>
       </div>
+      <div class="hero-body">
+        <h2 class="title is-4">Simulations using <tt>Def-MARL</tt></h2>
+        <center>
+          <video width="33%" autoplay="" muted="" loop="" controls>
+            <source src="videos/MPETarget.mp4" type="video/mp4">
+          </video>
+          <video width="33%" autoplay="" muted="" loop="" controls>
+            <source src="videos/MPESpread.mp4" type="video/mp4">
+          </video>
+          <video width="33%" autoplay="" muted="" loop="" controls>
+            <source src="videos/MPEFormation.mp4" type="video/mp4">
+          </video>
+          <video width="33%" autoplay="" muted="" loop="" controls>
+            <source src="videos/MPELine.mp4" type="video/mp4">
+          </video>
+          <video width="33%" autoplay="" muted="" loop="" controls>
+            <source src="videos/MPECorridor.mp4" type="video/mp4">
+          </video>
+          <video width="33%" autoplay="" muted="" loop="" controls>
+            <source src="videos/MPEConnectSpread.mp4" type="video/mp4">
+          </video>
+        </center>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="hero teaser">
   <div class="container is-max-desktop">
-    <!-- Paper video. -->
-    <!-- <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/TODO?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div> -->
-    <!--/ Paper video. -->
-
-    <!-- Abstract. -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
@@ -243,7 +251,7 @@
   
   <div class="container is-max-desktop">
     <!-- Main point 1 -->
-    <!-- <h2 class="title is-3">Problem setting</h2>
+    <h2 class="title is-3">Problem setting</h2>
     <div class="column">
       <div class="columns is-centered">
         <img src="figs/problem_setting.jpg"
@@ -251,95 +259,139 @@
           style="padding: 0px 50px 0px 0px; max-width: 50%;"
           alt="Problem setting"/>
           <p>
-            We consider the multi-agent constrained optimal control problem with <b>discrete-time</b>, <b>unknown</b> dynamics, <b>partial observability</b>, <b>input constraints</b>, and <b>without</b> a known performant nominal policy. Given \(N\) agents, we aim at design distributed policies \(\mu_1, \dots, \mu_N\), such that:
+            We consider the multi-agent safe optimal control problem (MASOCP) with <b>discrete-time</b>, <b>unknown</b> dynamics, <b>partial observability</b>, <b>input constraints</b>. Given \(N\) agents, we aim at design distributed policies \(\mu_1, \dots, \mu_N\), such that:
             <br><br>
-            The task is done: \(\min_{\mu_1,\dots,\mu_N} \sum_{k=0}^\infty l(\mathbf{x}^k, \mathbf{\mu}(\mathbf{x}^k))\),<br>
-            following the unknown dynamics: \(\mathbf{x}^{k+1} = f(\mathbf{x}^k, \mathbf{\mu}(\mathbf{x}^k))\), <br>
-            and the agents are safe: \(h_i^{(m)}(o_i^k)\leq 0, \quad o_i^k=O_i(\mathbf{x}^k)\)
+            The task is done: \(\min_{\pi_1,\dots,\pi_N} \sum_{k=0}^\infty l({x}^k, \pi({x}^k))\),<br>
+            following the unknown dynamics: \({x}^{k+1} = f({x}^k, {\pi}({x}^k))\), <br>
+            and the agents are safe: \(h_i(o_i^k)\leq 0, \quad o_i^k=O_i({x}^k)\)
           </p>
       </div>
     </div>
 
     <div class="column"></div>
-    <h2 class="title is-3">Safety: Discrete policy GCBF (DGCBF)</h2>
-    <div class="column">
-      <div class="columns is-centered">
-        <img src="figs/teaser.png"
-          class="center-image"
-          style="padding: 0px 50px 0px 0px; max-width: 48%;"
-          alt="GCBF"/>
-          <p>
-            DGCBF: safety guarantee for <b>unknown</b>, <b>discrete-time</b>, <b>partially observable</b> <b>multi-agent</b> systems.
-            <br><br>
-            Can be learned using <b>policy evaluation</b> with <b>deterministic rollouts</b>: 
-            <img src="figs/Learn_DGCBF.jpg" class="center-image">
-            <br>
-            Learn more about GCBF: Check our T-RO paper <a href="https://mit-realm.github.io/gcbfplus/">GCBF+</a>!
-          </p>
-      </div>
-    </div>
-
-    <div class="column"></div>
-    <h2 class="title is-3">DGPPO: Elegantly combine DGCBF with MARL</h2>
+    <h2 class="title is-3">Epigraph Form</h2>
     <div class="column">
       <div class="content">
-        <img src="figs/algorithm_structure.jpg"
+        <p>
+          As Lagrangian methods usually suffer from unstable training, we use the epigraph form for constrained optimization to improve training stability. First, we deinfe the cost-value function \(V^l\) using the standard optimal control formulation:
+          \[
+            V^l(x^\tau; \pi) = \sum_{k\geq\tau} l(x^k, \pi(x^k)).
+          \]
+          We also define the constraint-value function \(V^{h}\) as the maximum constraint violation:
+          \[
+            V^{h}(x^\tau; \pi) = \max_{k\geq\tau}h(x^k) = \max_{k\geq\tau}\max_i h_i(o_i^k) = \max_i\max_{k\geq\tau} h_i(o_i^k) = \max_i V^{h}_i(o_i^\tau; \pi).
+          \]
+          Then, we can rewrite the MASOCP as:
+          \[
+            \min_{\pi_1,\dots,\pi_N} V^l(x^0; \pi)
+            \quad \text{s.t. } V^{h}(x^0; \pi) \leq 0.
+          \]
+          The epigraph form then takes the form:
+          \[
+            \min_z \; z
+            \quad \text{s.t. } \min_{\pi_1,\dots,\pi_N} V(x^0, z; \pi) \leq 0,
+          \]
+          where \(V(x^0, z; \pi) = \max\left\{\max_i V_i^h(o_i^\tau;\pi),V^l(x^\tau;\pi)-z\right\}\).
+        </p>
+      </div>
+    </div>
+
+    <div class="column"></div>
+    <h2 class="title is-3">Distributed Epigraph Form</h2>
+    <div class="column">
+      <div class="content">
+        <p>
+          The epigraph form can be solved in a distributed fashion by each agent. First, we define the total value function for each agent as
+          \[
+            V_i(x^\tau, z; \pi) = \max\left\{V_i^h(o_i^\tau;\pi),V^l(x^\tau;\pi)-z\right\}.
+          \]
+          Then, we can rewrite the epigraph form as:
+          \[
+            \min_{z} \; z
+            \quad \text{s.t. } \min_{\pi_1,\dots,\pi_N} \max_i V_i(x^0, z; \pi) \leq 0.
+          \]
+          This decomposes the original problem into an unconstrained inner problem over policy \(\pi\) and a constrained outer problem over \(z\). During offline training, we solve the inner problem: for parameter \(z\), find the optimal policy \(\pi(\cdot,z)\) to minimize \(V(x^0,z;\pi)\).
+          Note that the optimal policy of the inner problem depends on \(z\).
+          During execution, we solve the outer problem online to get the minimal \(z\) that satisfies constraints. Using this \(z\) in the \(z\)-conditioned policy \(\pi(\cdot,z)\) found in the inner problem gives us the optimal policy for the overall epigraph form MASOCP (EF-MASOCP).
+        </p>
+      </div>
+    </div>
+
+    <div class="column"></div>
+    <h2 class="title is-3">Solving the outer problem during distributed execution</h2>
+    <div class="column">
+      <div class="content">
+        <p>
+          First, we provide the following theorem as the fundation of the distributed execution:
+          <div  style="border-radius: 5px; background-color:rgb(238, 238, 238);">
+            <p>
+              <i>Theorem 1:</i> Assume there doesn't exist another \(z\) that achieves the same cost as the optimal \(z\). Then, the outer problem of EF-MASOCP is equivalent to the following:
+              \[
+                \begin{aligned}
+                  z &= \max_i \; z_i \\
+                  z_i &= \min_{z'} \; z' \quad \text{s.t. } V_i(x^0, z'; \pi) \leq 0.
+                \end{aligned}
+              \]
+            </p>
+          </div>
+          This enables computing \(z\) <i>without</i> the use of the centralized \(V^l\) during execution. Specifically, each agent \(i\) solves the local problem for \(z_i\), which is a 1-dimensional optimization problem and can be efficiently solved using root-finding methods, then communicates \(z_i\) among the other agents to obtain the maximum. Furthermore, we observe experimentally that the agents can achieve low cost while maintaining safety even if \(z_i\) is not communicated. Thus, we do not include \(z_i\) communication for our method.
+        </p>
+      </div>
+    </div>
+
+    <div class="column"></div>
+    <h2 class="title is-3">Def-MARL: Overall framework</h2>
+    <div class="column">
+      <div class="content">
+        <img src="figs/def-marl.jpg"
           class="center-image"
           width="90%"
           alt="algorithm structure"/>
       </div>
     </div>
-    <p>
-      1. We perform a \(T\)-step <b>stochastic rollout</b> with the policy \(\boldsymbol{\pi}_\theta\). However, unlike MAPPO, we additionally perform a \(T\)-step <b>deterministic rollout</b> using a deterministic version of \(\boldsymbol{\pi}_\theta\) (by taking the mode), which we denote \(\boldsymbol\mu\), to learn the DGCBF.
-      <br>
-      2. We update the value functions via regression on the corresponding targets computed using GAE, where the targets for the cost-value function \(V^l\) uses the stochastic rollout and the targets for the constraint-value functions \(V^{h^{(m)},\boldsymbol\mu}\) use the deterministic rollout.
-      <br>
-      3. We update the policy \(\boldsymbol\pi_\theta\) by replacing the \(Q\)-function with its GAE, then combining the CRPO-style <i>decoupled</i> policy loss with the PPO clipped loss using the learned constraint-value functions \(V^{h^{(m)},\boldsymbol\mu}\) as the DGCBFs. 
-      <br>
-      <center>
-        \(\hat{C}^{(m)}_{\theta,i} := \max\left\{ 0,\, V^{h^{(m)},\boldsymbol\mu}(o_i^+) - V^{h^{(m)},\boldsymbol\mu}(o_i) + \alpha(V^{h^{(m)},\boldsymbol\mu}(o_i)) \right\}\)
-        <br>
-        \(\tilde{A}_i := A^{\text{GAE}} \unicode{x1D7D9}_{\max_m \hat{C}_{\theta,i}^{(m)} \leq 0} + 
-      \nu \max_m \hat{C}_{\theta ,i}^{(m)} \unicode{x1D7D9}_{\max_m \hat{C}_{\theta ,i}^{(m)} > 0}\)
-      </center>
-    </p> -->
 
-    <!-- <div class="column"></div>
+    <div class="column"></div>
     <h2 class="title is-3">Simulation Environments</h2>
     <div class="column">
       <div class="content">
-        <img src="figs/LidarNav.jpg"
-          width="24%"
-          alt="LidarNav"/>
-          <img src="figs/LidarSpread.jpg"
-          width="24%"
-          alt="LidarSpread"/>
-          <img src="figs/LidarLine.jpg"
-          width="24%"
-          alt="LidarLine"/>
-          <img src="figs/LidarBicycle.jpg"
-          width="24%"
-          alt="LidarBicycle"/> 
+        <img src="figs/MPETarget.jpg"
+          width="16.2%"
+          alt="MPETarget"/>
+          <img src="figs/MPESpread.jpg"
+          width="16.2%"
+          alt="MPESpread"/>
+          <img src="figs/MPEFormation.jpg"
+          width="16.2%"
+          alt="MPEFormation"/>
+          <img src="figs/MPELine.jpg"
+          width="16.2%"
+          alt="MPELine"/> 
+          <img src="figs/MPECorridor.jpg"
+          width="16.2%"
+          alt="MPECorridor"/>
+          <img src="figs/MPEConnectSpread.jpg"
+          width="16.2%"
+          alt="MPEConnectSpread"/>
+          <img src="figs/env_legend.jpg"
+          width="100%"
+          alt="env_legend"/>
           <p align="center">
-            Lidar environments, where agents use LiDAR to detect obstacles.
+            MPE environments.
           </p>
       </div>
     </div>
     <div class="column">
       <div class="content">
         <center>
-        <img src="figs/Transport.jpg"
-          width="24%"
-          alt="Transport"/>
-        <img src="figs/VMASWheel.jpg"
-          width="24%"
-          alt="VMASWheel"/>
-        <img src="figs/VMASTransport2.jpg"
-          width="24%"
-          alt="VMASTransport2"/>
+        <img src="figs/multicheetah.png"
+          width="49%"
+          alt="multicheetah"/>
+        <img src="figs/coupledcheetah.png"
+          width="49%"
+          alt="coupledcheetah"/>
         </center>
         <p align="center">
-          MuJoCo and VMAS environments, where contact dynamics are included.
+          MuJoCo environments, where contact dynamics are included.
         </p>
       </div>
     </div>
@@ -348,37 +400,37 @@
     <h2 class="title is-3">Numerical Results</h2>
     <div class="column">
       <div class="content">
-        <img src="figs/safe_cost_main.jpg"
+        <img src="figs/3_safe_cost.jpg"
           class="center-image"
-          width="100%"
+          width="80%"
           alt="main results"/>
       </div>
       <p align="center">
-        <b>Comparison on \(N=3\) agents.</b> DGPPO has the best performance by being closest to the top left corner. 
+        <b>Comparison on \(N=3\) agents.</b> <tt>Def-MARL</tt> has the best performance by being closest to the top left corner. 
       </p>
     </div>
     <div class="column">
       <div class="content">
-        <img src="figs/train_main.jpg"
+        <img src="figs/lagr_train_main.jpg"
           class="center-image"
-          width="100%"
+          width="80%"
           alt="training stability"/>
       </div>
       <p align="center">
-        <b>Training stability.</b> DGPPO yields smoother training curves compared to the baselines.
+        <b>Training stability.</b> <tt>Def-MARL</tt> yields smoother training curves compared to the baselines.
       </p>
     </div>
     <div class="column">
       <div class="content">
-        <img src="figs/train_increase_n.jpg"
+        <img src="figs/scalability.jpg"
           class="center-image"
-          width="100%"
+          width="80%"
           alt="large scale training"/>
       </div>
       <p align="center">
-        <b>Scaling to \(N=5, 7\).</b> Unlike other methods, DGPPO performs similarly with more agents.
+        <b>Results on larger-scale MPE.</b> Unlike other methods, <tt>Def-MARL</tt> maintains the best performance.
       </p>
-    </div> -->
+    </div>
 
   <div class="column"></div>
   <h2 class="title is-3">Related Work</h2>
@@ -386,13 +438,21 @@
     <div class="content">
       <div class="content has-text-justified">
         <p>
-          This work is part of our line of work on designing safe and intelligent control policies for multi-agent systems. Other works on this line includes <a href="https://mit-realm.github.io/dgppo/">DGPPO</a>, <a href="https://mit-realm.github.io/gcbfplus/">GCBF+</a>, and <a href="https://mit-realm.github.io/gcbf-website/">GCBFv0</a>.
+          This work is part of our line of work on designing safe and intelligent control policies for multi-agent systems. Other works on this line includes:
+          <br>
+          <br>
+          <a href="https://mit-realm.github.io/dgppo/">DGPPO</a>: How to extend CBFs elegantly for safe MARL.
+          <br>
+          <a href="https://mit-realm.github.io/gcbf-website/">GCBFv0</a>: Generalizable distributed safe controllers for 1000+ agents.
+          <br>
+          <a href="https://mit-realm.github.io/gcbfplus/">GCBF+</a>: Generalizable distributed safe controllers for 1000+ agents, an improved version of GCBFv0.
+          <br>
+          <br>
           For a survey of the field of learning safe control for multi-robot systems, see <a rel="survey" href="https://arxiv.org/pdf/2311.13714.pdf">this paper</a>.
         </p>
       </div>
     </div>
   </div>
-  <!--/ Concurrent Work. -->
 </section>
 
 
@@ -401,7 +461,7 @@
     <h2 class="title">BibTeX</h2>
     <pre><code>@inproceedings{zhang2025defmarl,
       title={Solving Multi-Agent Safe Optimal Control with Distributed Epigraph Form MARL},
-      author={Zhang, Songyuan and So, Oswin and Black, Mitchell and Zachary, Serlin and Fan, Chuchu},
+      author={Zhang, Songyuan and So, Oswin and Black, Mitchell and Serlin, Zachary and Fan, Chuchu},
       booktitle={Proceedings of Robotics: Science and Systems},
       year={2025},
 }</code></pre>

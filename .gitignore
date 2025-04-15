@@ -1,0 +1,7 @@
+.DS_Store
+.idea/
+__pycache__/
+wandb
+logs
+figs
+*.egg-info

@@ -193,7 +193,7 @@ This should report the reward, min/max reward, cost, min/max cost, and the safet
 ```
 @inproceedings{zhang2025defmarl,
       title={Solving Multi-Agent Safe Optimal Control with Distributed Epigraph Form MARL},
-      author={Zhang, Songyuan and So, Oswin and Black, Mitchell and Zachary, Serlin and Fan, Chuchu},
+      author={Zhang, Songyuan and So, Oswin and Black, Mitchell and Serlin, Zachary and Fan, Chuchu},
       booktitle={Proceedings of Robotics: Science and Systems},
       year={2025},
 }

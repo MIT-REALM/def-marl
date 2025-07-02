@@ -4,7 +4,7 @@
 
 [![Conference](https://img.shields.io/badge/RSS-Accepted-success)](https://mit-realm.github.io/def-marl/)
 
-Jax official implementation of RSS2025 paper: [Songyuan Zhang](https://syzhang092218-source.github.io), [Oswin So](https://oswinso.xyz/), [Mitchell Black](https://www.blackmitchell.com/), [Zachary Serlin](https://zacharyserlin.com/) and [Chuchu Fan](https://chuchu.mit.edu): "[Solving Multi-Agent Safe Optimal Control with Distributed Epigraph Form MARL](https://mit-realm.github.io/def-marl/)". 
+Jax official implementation of RSS2025 paper (Best Student Paper Award): [Songyuan Zhang](https://syzhang092218-source.github.io), [Oswin So](https://oswinso.xyz/), [Mitchell Black](https://www.blackmitchell.com/), [Zachary Serlin](https://zacharyserlin.com/) and [Chuchu Fan](https://chuchu.mit.edu): "[Solving Multi-Agent Safe Optimal Control with Distributed Epigraph Form MARL](https://mit-realm.github.io/def-marl/)". 
 
 [Dependencies](#Dependencies) •
 [Installation](#Installation) •
